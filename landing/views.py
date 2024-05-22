@@ -2,6 +2,8 @@ from pipes import Template
 from django.shortcuts import render
 from django.views.generic import TemplateView
 from .models import Dron
+from django.views.generic.edit import CreateView
+from .forms import DronForm
 
 
 class HomeView(TemplateView):
@@ -17,5 +19,9 @@ class DronesView(TemplateView):
         context = super().get_context_data(**kwargs)
         context['drones'] = Dron.objects.all()
         return context
-    
-    
+from django.urls import reverse_lazy
+class AddDroneView(CreateView):
+    model=Dron
+    form_class=DronForm
+    template_name='adddrone.html'
+    success_url=reverse_lazy('home')
